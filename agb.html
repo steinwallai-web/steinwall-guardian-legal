@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STEINWALL Guardian — Terms of Service</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --text: #1b2027;
+    --text-muted: #5b6472;
+    --accent: #2b6674;
+    --accent-soft: #e4eef0;
+    --border: #dee2e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b;
+      --surface: #1a1e26;
+      --text: #e7e9ec;
+      --text-muted: #98a0ac;
+      --accent: #6fb6c2;
+      --accent-soft: rgba(111, 182, 194, 0.14);
+      --border: #2a2f38;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 64px 24px 120px; }
+  header.doc-head { margin-bottom: 40px; }
+  .mark { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .mark svg { display: block; }
+  .mark-word {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  }
+  .mark-word b { color: var(--text); font-weight: 600; }
+  h1 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-weight: 400; font-size: clamp(28px, 4vw, 38px); line-height: 1.15; margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  .meta { color: var(--text-muted); font-size: 14px; display: flex; gap: 18px; flex-wrap: wrap; }
+  .meta span { white-space: nowrap; }
+  .plain {
+    margin-top: 32px; background: var(--accent-soft); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: 4px; padding: 18px 22px;
+  }
+  .plain .eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+    font-weight: 600; margin-bottom: 8px; display: block;
+  }
+  .plain p { margin: 0; font-size: 15px; color: var(--text); }
+  nav.toc { margin: 40px 0 48px; padding: 20px 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; }
+  nav.toc .eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+    font-weight: 600; margin-bottom: 12px; display: block;
+  }
+  nav.toc ol { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 24px; }
+  nav.toc li { break-inside: avoid; margin-bottom: 6px; }
+  nav.toc a { color: var(--text); text-decoration: none; font-size: 14px; border-bottom: 1px solid transparent; }
+  nav.toc a:hover { border-bottom-color: var(--accent); }
+  section.clause { padding-top: 40px; border-top: 1px solid var(--border); }
+  section.clause:first-of-type { border-top: none; }
+  .clause-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
+  .clause-num {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif; font-size: 15px;
+    color: var(--accent); min-width: 24px;
+  }
+  h2 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-weight: 400; font-size: 21px; margin: 0;
+  }
+  .clause-body { padding-left: 38px; }
+  .clause-body p { margin: 0 0 14px; font-size: 15.5px; }
+  .clause-body p:last-child { margin-bottom: 0; }
+  .clause-body ul { margin: 0 0 14px; padding-left: 20px; }
+  .clause-body li { margin-bottom: 6px; font-size: 15.5px; }
+  .clause-body strong { font-weight: 600; }
+  footer.doc-foot {
+    margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border);
+    color: var(--text-muted); font-size: 13px;
+  }
+  a { color: var(--accent); }
+  @media (max-width: 560px) {
+    nav.toc ol { columns: 1; }
+    .clause-body { padding-left: 0; margin-top: 4px; }
+    .clause-head { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="doc-head">
+    <div class="mark">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M11 1.5 19.5 5v6c0 6-3.6 9.4-8.5 10.5C6.1 20.4 2.5 17 2.5 11V5L11 1.5Z"
+              stroke="#2b6674" stroke-width="1.4" fill="none"/>
+        <path d="M7 11.2 9.8 14 15 8" stroke="#2b6674" stroke-width="1.4"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="mark-word"><b>STEINWALL</b> Guardian</span>
+    </div>
+    <h1>Terms of Service</h1>
+    <div class="meta">
+      <span>Effective 31 July 2026</span>
+      <span>Operated by Sebastian Keil · STEINWALL</span>
+      <span>contact: steinwall.ai@gmail.com</span>
+    </div>
+    <div class="plain">
+      <span class="eyebrow">In plain terms</span>
+      <p>Guardian analyzes messages you choose to share with it — pasted text, screenshots, or (once you connect it) your own incoming platform messages — to flag harassment, threats, and scams. It runs on your own device, keeps what it stores encrypted, and never posts, sends, or acts on your accounts. You can disconnect and delete everything at any time.</p>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Table of contents">
+    <span class="eyebrow">Contents</span>
+    <ol>
+      <li><a href="#scope">1. What Guardian is</a></li>
+      <li><a href="#eligibility">2. Who can use it</a></li>
+      <li><a href="#account">3. Your account</a></li>
+      <li><a href="#connections">4. Connecting third-party accounts</a></li>
+      <li><a href="#analysis">5. What the analysis does and doesn't do</a></li>
+      <li><a href="#tiers">6. Tiers and cost</a></li>
+      <li><a href="#acceptable-use">7. Acceptable use</a></li>
+      <li><a href="#availability">8. Availability</a></li>
+      <li><a href="#liability">9. Liability</a></li>
+      <li><a href="#changes">10. Changes and termination</a></li>
+      <li><a href="#contact">11. Contact</a></li>
+    </ol>
+  </nav>
+
+  <section class="clause" id="scope">
+    <div class="clause-head"><span class="clause-num">1</span><h2>What Guardian is</h2></div>
+    <div class="clause-body">
+      <p>STEINWALL Guardian is a personal digital-safety tool. It examines text, images, short video clips, and voice messages that you submit to it, and — where you have explicitly connected a third-party account — messages sent to that account, in order to identify harassment, threats, and fraud attempts directed at you. Analysis runs on local AI models on your own device; nothing you submit is sent to a third-party cloud AI service.</p>
+      <p>Guardian is a detection and documentation aid. It is <strong>not</strong> a law firm, does not provide legal advice, and does not file reports with authorities or platforms on your behalf.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="eligibility">
+    <div class="clause-head"><span class="clause-num">2</span><h2>Who can use it</h2></div>
+    <div class="clause-body">
+      <p>You must be able to form a binding agreement under the law of your country of residence to use Guardian. If you are connecting a third-party account (such as TikTok), you must be the legitimate holder of that account and old enough to hold it under that platform's own terms.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="account">
+    <div class="clause-head"><span class="clause-num">3</span><h2>Your account</h2></div>
+    <div class="clause-body">
+      <p>Guardian currently operates as a single local account per installation, secured by a password you choose and a one-time recovery phrase generated at setup. You are responsible for keeping both safe. If you lose both your password and your recovery phrase, Guardian cannot recover your encrypted data — this is a deliberate design choice, not an oversight, and is disclosed to you at account creation.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="connections">
+    <div class="clause-head"><span class="clause-num">4</span><h2>Connecting third-party accounts</h2></div>
+    <div class="clause-body">
+      <p>Where Guardian offers a connection to a third-party platform (for example, TikTok's official Data Portability API), the connection is established through that platform's own sign-in and consent screen. Guardian only requests access to <strong>your own</strong> incoming messages on that account — never another person's account, and never the ability to post, message, or take any action on your behalf.</p>
+      <p>You can revoke this access at any time, either from within Guardian or directly from the third-party platform's own settings.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="analysis">
+    <div class="clause-head"><span class="clause-num">5</span><h2>What the analysis does and doesn't do</h2></div>
+    <div class="clause-body">
+      <p>Analysis results (category, risk level, a risk score, and a plain-language explanation) are generated by an AI model and are <strong>estimates, not certainties</strong>. Guardian can miss genuine threats and can occasionally flag harmless content. Always use your own judgment, and contact the relevant platform or the authorities directly for anything urgent.</p>
+      <ul>
+        <li>Guardian does not verify the identity of anyone mentioned in analyzed content.</li>
+        <li>Guardian does not automatically report, block, or reply to anyone.</li>
+        <li>A "case" record you export (as text or PDF) is a summary you generate — you decide who to share it with and when.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clause" id="tiers">
+    <div class="clause-head"><span class="clause-num">6</span><h2>Tiers and cost</h2></div>
+    <div class="clause-body">
+      <p>Guardian is currently free to use. It shows prepared usage tiers (FREE, PRO, CREATOR, ENTERPRISE) that set monthly analysis limits and unlock optional features such as media analysis and PDF report export. No payment is currently collected for any tier, and no tier grants access beyond what is described in this document.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="acceptable-use">
+    <div class="clause-head"><span class="clause-num">7</span><h2>Acceptable use</h2></div>
+    <div class="clause-body">
+      <p>Use Guardian only to protect yourself or someone who has asked you to help protect them. Do not use it to monitor another adult without their knowledge or consent, to build a case against someone for purposes unrelated to your own safety, or to submit content you do not have the right to analyze.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="availability">
+    <div class="clause-head"><span class="clause-num">8</span><h2>Availability</h2></div>
+    <div class="clause-body">
+      <p>Guardian is provided as-is, without uptime guarantees. Analysis depends on local AI models and, where connected, on third-party platform APIs that STEINWALL does not control and which may change or become unavailable.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="liability">
+    <div class="clause-head"><span class="clause-num">9</span><h2>Liability</h2></div>
+    <div class="clause-body">
+      <p>To the maximum extent permitted by law, STEINWALL and Sebastian Keil are not liable for decisions you make based on Guardian's analysis, for missed detections, or for consequences arising from your use of a connected third-party account. Nothing in this section limits liability that cannot be limited under applicable law.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="changes">
+    <div class="clause-head"><span class="clause-num">10</span><h2>Changes and termination</h2></div>
+    <div class="clause-body">
+      <p>These terms may be updated as Guardian's features change; the effective date at the top of this page will reflect the latest revision. You may stop using Guardian and delete your local data at any time. We may suspend a connected third-party integration if the platform's own policies require it.</p>
+    </div>
+  </section>
+
+  <section class="clause" id="contact">
+    <div class="clause-head"><span class="clause-num">11</span><h2>Contact</h2></div>
+    <div class="clause-body">
+      <p>Questions about these terms: <a href="mailto:steinwall.ai@gmail.com">steinwall.ai@gmail.com</a>.</p>
+    </div>
+  </section>
+
+  <footer class="doc-foot">
+    STEINWALL Guardian · Terms of Service · Effective 31 July 2026
+  </footer>
+</div>
+</body>
+</html>
