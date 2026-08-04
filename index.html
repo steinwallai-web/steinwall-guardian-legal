@@ -90,8 +90,8 @@
   .about-grid ul{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
   .about-grid ul li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--steel)}
   .portrait-frame{position:relative;border-radius:4px;overflow:hidden;
-    box-shadow:0 30px 60px rgba(0,0,0,.5);aspect-ratio:4/5}
-  .portrait-frame img{width:100%;height:100%;object-fit:cover;object-position:top center;
+    box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .portrait-frame img{width:100%;height:auto;display:block;
     filter:grayscale(.15) contrast(1.05)}
   .portrait-frame::after{content:"";position:absolute;inset:0;
     background:linear-gradient(200deg, transparent 55%, rgba(20,21,25,.55) 100%);pointer-events:none}
@@ -132,7 +132,7 @@
     .hero{grid-template-columns:1fr;text-align:left;padding-top:56px}
     .hero-visual{padding:10px 0 30px}
     .about-grid{grid-template-columns:1fr}
-    .portrait-frame{max-width:360px;margin:0 auto;aspect-ratio:1/1}
+    .portrait-frame{max-width:360px;margin:0 auto}
   }
   @media (max-width:640px){
     .topbar{padding:14px 18px}
