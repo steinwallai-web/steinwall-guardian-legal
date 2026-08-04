@@ -1,17 +1,184 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>STEINWALL Guardian — Legal</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>STEINWALL — KI-Unternehmen für Sicherheit, Automatisierung &amp; Content</title>
+<meta name="description" content="STEINWALL ist ein Ein-Personen-KI-Unternehmen aus Berlin. Produkte: STEINWALL Guardian (digitale Sicherheit) und STEINWALL IT-TÜV (IT-Sicherheits-Check für Privatpersonen und kleine Unternehmen)."/>
 <style>
-  body { font-family: -apple-system, "Segoe UI", Arial, sans-serif; max-width: 640px; margin: 80px auto; padding: 0 24px; color: #1b2027; }
-  a { color: #2b6674; font-size: 18px; display: block; margin: 16px 0; }
+  :root{
+    --ink:#0a0d14; --panel:#11151f; --panel-2:#161c29; --line:#232b3d;
+    --text:#e8ecf5; --muted:#98a3bd; --steel:#9fb0d0; --steel-bright:#c9d6ec;
+    --accent:#5b84c4; --accent-bright:#7fa3e0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:
+      radial-gradient(1200px 600px at 50% -10%, #182236 0%, transparent 60%),
+      var(--ink);
+    color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    line-height:1.6;
+  }
+  a{color:var(--accent-bright)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  header.top{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);
+    background:rgba(10,13,20,.75);border-bottom:1px solid var(--line)}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1080px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;font-size:17px}
+  .brand img{height:30px;width:auto;display:block}
+  nav.links{display:flex;gap:22px;font-size:14px}
+  nav.links a{color:var(--muted);text-decoration:none}
+  nav.links a:hover{color:var(--steel-bright)}
+
+  .hero{padding:76px 24px 60px;text-align:center}
+  .hero img.shield{width:132px;height:auto;margin:0 auto 22px;display:block;
+    filter:drop-shadow(0 10px 30px rgba(91,132,196,.35))}
+  .hero h1{font-size:clamp(30px,5vw,46px);margin:0 0 14px;letter-spacing:.01em;
+    text-wrap:balance}
+  .hero h1 .s{color:var(--steel-bright)}
+  .hero p.tagline{max-width:620px;margin:0 auto;color:var(--muted);font-size:17px}
+  .hero .stamp{display:inline-block;margin-top:22px;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--steel);border:1px solid var(--line);
+    border-radius:999px;padding:6px 16px;background:var(--panel)}
+
+  section{padding:54px 24px}
+  section h2{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);
+    margin:0 0 8px;text-align:center}
+  section h3.lead{font-size:26px;margin:0 0 28px;text-align:center;text-wrap:balance}
+  .about p{max-width:700px;margin:12px auto;color:var(--muted);font-size:16px}
+  .about .facts{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:28px}
+  .about .facts div{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;font-size:13px;color:var(--muted);min-width:150px;text-align:center}
+  .about .facts strong{display:block;color:var(--text);font-size:19px;margin-bottom:2px}
+
+  .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;max-width:900px;margin:0 auto}
+  .card{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:26px}
+  .card .kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-bright)}
+  .card h4{font-size:21px;margin:8px 0 10px}
+  .card p{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+  .card ul{margin:0 0 18px;padding-left:18px;color:var(--muted);font-size:14px}
+  .card ul li{margin:5px 0}
+  .card .cta{display:inline-block;font-size:14px;font-weight:600;color:var(--ink);
+    background:var(--steel-bright);padding:9px 18px;border-radius:9px;text-decoration:none}
+  .card .cta:hover{background:#fff}
+  .card .status{display:inline-block;margin-left:10px;font-size:12px;color:var(--muted)}
+
+  .roadmap-note{max-width:700px;margin:34px auto 0;text-align:center;color:var(--muted);font-size:13.5px;
+    border-top:1px solid var(--line);padding-top:20px}
+
+  .contact{text-align:center}
+  .contact .box{max-width:480px;margin:0 auto;background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:28px}
+  .contact .box a.mail{font-size:18px;font-weight:600}
+  .contact .box p{color:var(--muted);font-size:14px;margin-top:10px}
+
+  footer{border-top:1px solid var(--line);padding:28px 24px 40px;text-align:center;
+    color:var(--muted);font-size:12.5px}
+  footer .flinks{margin-top:10px}
+  footer .flinks a{color:var(--steel);text-decoration:none;margin:0 10px}
+  footer .flinks a:hover{color:var(--steel-bright)}
+
+  @media (max-width:640px){
+    .topbar{flex-direction:column;gap:10px;padding:14px}
+    nav.links{gap:14px;flex-wrap:wrap;justify-content:center}
+    .hero{padding:50px 20px 40px}
+    section{padding:40px 18px}
+  }
 </style>
 </head>
 <body>
-  <h1>STEINWALL Guardian</h1>
-  <a href="./agb.html">Terms of Service</a>
-  <a href="./datenschutz.html">Privacy Policy</a>
+
+<header class="top">
+  <div class="topbar">
+    <div class="brand"><img src="./steinwall_shield.png" alt="STEINWALL"/> STEINWALL</div>
+    <nav class="links">
+      <a href="#about">Über uns</a>
+      <a href="#produkte">Produkte</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <img class="shield" src="./steinwall_shield.png" alt="STEINWALL Wappen"/>
+  <h1>STEINWALL — Künstliche Intelligenz<br/>für <span class="s">Sicherheit</span>, Automatisierung &amp; Content</h1>
+  <p class="tagline">Ein von Berlin aus geführtes KI-Unternehmen. Wir bauen eigenständige, produktreife
+    KI-Anwendungen — von digitaler Sicherheit über IT-Prüfungen bis hin zu automatisierter Content-Erstellung.</p>
+  <div class="stamp">Berlin · Einzelunternehmen · gegründet von Sebastian Keil</div>
+</section>
+
+<section class="about" id="about">
+  <h2>Über uns</h2>
+  <h3 class="lead">Ein Gründer, mehrere eigenständige KI-Produkte</h3>
+  <p>STEINWALL ist kein klassisches Software-Haus mit einem einzigen Produkt, sondern ein
+    branchenübergreifendes KI-Unternehmen: jede Produktlinie löst ein konkretes, reales Problem und wird
+    unabhängig weiterentwickelt — mit eigener Zielgruppe, eigenem Funktionsumfang und eigenen Prüfprozessen.</p>
+  <p>Gegründet und geführt von Sebastian Keil als Einzelunternehmer. Entwicklung, Qualitätssicherung und
+    Betrieb laufen bewusst schlank — lokal betriebene KI-Modelle statt große Cloud-Abhängigkeiten, wo immer
+    das möglich ist.</p>
+  <div class="facts">
+    <div><strong>2</strong>marktreife Produkte</div>
+    <div><strong>Berlin</strong>Firmensitz</div>
+    <div><strong>DE463568578</strong>USt-IdNr.</div>
+  </div>
+</section>
+
+<section id="produkte">
+  <h2>Produkte</h2>
+  <h3 class="lead">Was STEINWALL heute anbietet</h3>
+  <div class="products">
+    <div class="card">
+      <div class="kicker">Digitale Sicherheit</div>
+      <h4>STEINWALL Guardian</h4>
+      <p>KI-gestützte Erkennung von Beleidigung, Drohung, Betrugsversuch und Belästigung in Nachrichten,
+        Screenshots, Videos und Sprachnachrichten — mit automatisch angelegter, verschlüsselter Fallakte.</p>
+      <ul>
+        <li>Textanalyse bleibt in jedem Tarif kostenlos nutzbar</li>
+        <li>Erkennt gezielte Umgehungsversuche (z. B. Leetspeak)</li>
+        <li>Professioneller PDF-Sicherheitsbericht &amp; Beweis-Export</li>
+        <li>Anbindung an Social-Media-Konten (z. B. TikTok) zur Konto-Überwachung</li>
+      </ul>
+      <a class="cta" href="mailto:steinwall.ai@gmail.com?subject=STEINWALL%20Guardian%20-%20Zugang">Zugang anfragen</a>
+      <span class="status">Aktiv in Entwicklung</span>
+    </div>
+    <div class="card">
+      <div class="kicker">IT-Sicherheit</div>
+      <h4>STEINWALL IT-TÜV</h4>
+      <p>Verständlicher IT-Sicherheits-Check für Privatpersonen und kleine Unternehmen — ein Scan-Skript prüft
+        den eigenen Rechner, ein Prüfsiegel-Bericht erklärt die Ergebnisse in Klartext statt Fachjargon.</p>
+      <ul>
+        <li>Einzel-Tarif und Firmen-Paket für mehrere Geräte</li>
+        <li>Premium-PDF-Bericht mit Ampel-Bewertung je Kategorie</li>
+        <li>Wiederkehrende Scans über Laufzeit-Pakete buchbar</li>
+        <li>Kein Agenten-Dauerbetrieb — Scan läuft nur auf Wunsch</li>
+      </ul>
+      <a class="cta" href="mailto:steinwall.ai@gmail.com?subject=STEINWALL%20IT-T%C3%9CV%20-%20Zugang">Zugang anfragen</a>
+      <span class="status">Aktiv in Entwicklung</span>
+    </div>
+  </div>
+  <p class="roadmap-note">Weitere Produkte (u. a. automatisierte Content- und Marketing-Pipelines) befinden
+    sich in interner Entwicklung und werden hier ergänzt, sobald sie kundenreif sind.</p>
+</section>
+
+<section class="contact" id="kontakt">
+  <h2>Kontakt</h2>
+  <h3 class="lead">Fragen, Zugang oder Presse</h3>
+  <div class="box">
+    <a class="mail" href="mailto:steinwall.ai@gmail.com">steinwall.ai@gmail.com</a>
+    <p>Wir antworten persönlich — STEINWALL ist ein Einzelunternehmen, keine Support-Warteschlange.</p>
+  </div>
+</section>
+
+<footer>
+  STEINWALL, Einzelunternehmen (Inhaber: Sebastian Keil) · Lindenallee 2, 14050 Berlin
+  <div class="flinks">
+    <a href="./impressum.html">Impressum</a>
+    <a href="./datenschutz.html">Datenschutz</a>
+    <a href="./agb.html">AGB (Guardian)</a>
+  </div>
+</footer>
+
 </body>
 </html>
