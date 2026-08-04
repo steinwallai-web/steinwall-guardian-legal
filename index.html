@@ -5,19 +5,25 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>STEINWALL — Internet Security &amp; IT-Dienstleistungen</title>
 <meta name="description" content="STEINWALL: Internet Security &amp; IT-Dienstleistungen aus Berlin. Produkte: STEINWALL Guardian (digitale Sicherheit) und STEINWALL IT-TÜV (verständlicher IT-Sicherheits-Check)."/>
+<meta property="og:title" content="STEINWALL — Internet Security &amp; IT-Dienstleistungen"/>
+<meta property="og:description" content="Digitale Sicherheit und IT-Prüfprodukte aus Berlin. Persönlich entwickelt und betreut."/>
+<meta property="og:image" content="https://steinwallai-web.github.io/steinwall-guardian-legal/logo_transparent.png"/>
+<meta property="og:type" content="website"/>
+<link rel="icon" href="./favicon.png" type="image/png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#15161a; --stone-1:#26282d; --stone-2:#3d4048; --stone-3:#575b64;
-    --steel:#c9cfd6; --steel-bright:#e8ebee;
-    --accent:#3d6b9e; --accent-bright:#6ea0d6;
-    --paper:#eceef0; --muted:#9aa1ab;
-    --line:rgba(255,255,255,.09);
+    --ink:#141519; --stone-1:#232529; --stone-2:#3a3d44; --stone-3:#575b64;
+    --steel:#c9cfd6; --steel-bright:#eef0f2;
+    --accent:#4a7bab; --accent-bright:#7eabdb;
+    --paper:#eceef0; --muted:#98a0ab;
+    --line:rgba(255,255,255,.08);
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation-duration:.01ms !important;transition-duration:.01ms !important} }
   body{
     margin:0;background:var(--ink);color:var(--paper);
     font-family:"Public Sans",-apple-system,"Segoe UI",Arial,sans-serif;
@@ -25,95 +31,113 @@
   }
   h1,h2,h3,.display{font-family:"Oswald",Impact,sans-serif;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance}
   a{color:var(--accent-bright)}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px}
   img{max-width:100%;display:block}
+  svg.icon{flex:none;width:18px;height:18px;stroke:var(--accent-bright);fill:none;stroke-width:1.8}
+
+  /* reveal-on-scroll */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* stone-seam divider, echtes Foto-Motiv als schmaler Streifen statt generischer Linie */
+  .seam{height:10px;background:url("stone_texture.jpg");background-size:420px;background-repeat:repeat;
+    opacity:.5;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 
   header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
-    background:rgba(21,22,26,.82);border-bottom:1px solid var(--line)}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1120px;margin:0 auto}
+    background:rgba(20,21,25,.82);border-bottom:1px solid var(--line)}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1160px;margin:0 auto}
   .brand{display:flex;align-items:center;gap:10px;font-family:"Oswald";font-weight:600;letter-spacing:.06em;font-size:16px;text-transform:uppercase}
-  .brand img{height:32px;width:auto}
+  .brand img{height:30px;width:auto}
   nav.links{display:flex;gap:26px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
   nav.links a{color:var(--muted);text-decoration:none;font-weight:500}
   nav.links a:hover{color:var(--steel-bright)}
 
   .hero{
-    position:relative;padding:90px 28px 76px;text-align:center;overflow:hidden;
-    background:
-      linear-gradient(180deg, rgba(21,22,26,.65) 0%, rgba(21,22,26,.94) 78%, var(--ink) 100%),
-      url("stone_texture.jpg");
-    background-size:auto, 620px;
-    background-repeat:no-repeat, repeat;
-    background-position:center, center;
+    position:relative;overflow:hidden;padding:80px 28px 0;
+    display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;
+    max-width:1160px;margin:0 auto;
   }
   .hero .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-bright);
-    font-weight:600;margin-bottom:22px}
-  .hero img.logo{width:min(280px,60vw);height:auto;margin:0 auto 8px;display:block;
-    filter:drop-shadow(0 14px 34px rgba(0,0,0,.55))}
-  .hero h1{font-size:clamp(28px,4.6vw,50px);font-weight:700;margin:14px 0 6px;color:var(--steel-bright)}
-  .hero .sub{font-family:"Oswald";font-weight:500;letter-spacing:.1em;text-transform:uppercase;
-    font-size:clamp(14px,2vw,19px);color:var(--accent-bright);margin:0 0 26px}
-  .hero p.tagline{max-width:600px;margin:0 auto;color:var(--muted);font-size:16.5px}
-  .hero .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:34px}
+    font-weight:600;margin-bottom:18px}
+  .hero .sub{font-family:"Oswald";font-weight:500;letter-spacing:.09em;text-transform:uppercase;
+    font-size:clamp(14px,1.6vw,18px);color:var(--accent-bright);margin:0 0 18px}
+  .hero h1{font-size:clamp(32px,4.6vw,56px);font-weight:700;margin:0 0 20px;color:var(--steel-bright);line-height:1.05}
+  .hero p.tagline{max-width:520px;color:var(--muted);font-size:16.5px;margin:0 0 30px}
+  .hero .stats{display:flex;flex-wrap:wrap;gap:12px}
   .hero .stats div{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:10px;
-    padding:11px 22px;font-size:12.5px;color:var(--muted);letter-spacing:.03em}
+    padding:11px 20px;font-size:12.5px;color:var(--muted);letter-spacing:.03em}
   .hero .stats strong{display:block;color:var(--steel-bright);font-family:"Oswald";font-size:18px;
     letter-spacing:.03em;margin-bottom:1px}
+  .hero-visual{position:relative;display:flex;align-items:center;justify-content:center;
+    padding:50px 20px 60px;}
+  .hero-visual::before{content:"";position:absolute;inset:-10% -10% 0;background:url("stone_texture.jpg");
+    background-size:460px;background-repeat:repeat;
+    -webkit-mask-image:radial-gradient(closest-side, #000 55%, transparent 100%);
+    mask-image:radial-gradient(closest-side, #000 55%, transparent 100%);opacity:.55}
+  .hero-visual img{position:relative;width:min(300px,80%);filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}
 
-  section{padding:66px 28px}
+  section{padding:70px 28px}
   .eyebrow-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-bright);
-    text-align:center;margin:0 0 10px;font-weight:600}
-  h2.section-title{font-size:clamp(23px,3vw,32px);text-align:center;margin:0 0 40px;color:var(--steel-bright)}
+    margin:0 0 10px;font-weight:600}
+  h2.section-title{font-size:clamp(23px,3vw,32px);margin:0 0 8px;color:var(--steel-bright)}
+  .section-head{max-width:1160px;margin:0 auto 44px}
+  .section-head.center{text-align:center}
+  .section-head p{color:var(--muted);font-size:15px;max-width:520px;margin:10px 0 0}
+  .section-head.center p{margin-left:auto;margin-right:auto}
 
-  .about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:52px;align-items:center;max-width:1080px;margin:0 auto}
+  .about-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center;max-width:1160px;margin:0 auto}
   .about-grid p{color:var(--muted);font-size:15.5px;margin:0 0 16px}
-  .about-grid .portrait{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);
-    box-shadow:0 24px 50px rgba(0,0,0,.45)}
-  .about-grid .portrait img{width:100%;height:auto}
-  .about-grid .portrait .cap{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;
-    background:linear-gradient(0deg, rgba(10,11,13,.92), transparent);font-size:13px;color:var(--steel)}
-  .about-grid .portrait .cap strong{display:block;color:var(--steel-bright);font-family:"Oswald";
-    letter-spacing:.03em;font-size:14.5px;text-transform:uppercase}
-  .facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
-  .facts div{background:var(--stone-1);border:1px solid var(--line);border-radius:10px;padding:12px 18px;font-size:12.5px;color:var(--muted)}
-  .facts strong{display:block;color:var(--steel-bright);font-family:"Oswald";font-size:17px}
+  .about-grid ul{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .about-grid ul li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--steel)}
+  .portrait-frame{position:relative;border-radius:4px;overflow:hidden;
+    box-shadow:0 30px 60px rgba(0,0,0,.5);aspect-ratio:4/5}
+  .portrait-frame img{width:100%;height:100%;object-fit:cover;object-position:top center;
+    filter:grayscale(.15) contrast(1.05)}
+  .portrait-frame::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(200deg, transparent 55%, rgba(20,21,25,.55) 100%);pointer-events:none}
+  .portrait-frame .tag{position:absolute;left:18px;bottom:18px;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);background:rgba(20,21,25,.75);border:1px solid var(--line);
+    padding:6px 12px;border-radius:999px;backdrop-filter:blur(4px)}
 
-  .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;max-width:960px;margin:0 auto}
+  .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:1160px;margin:0 auto}
   .card{background:linear-gradient(165deg,var(--stone-1),var(--ink));border:1px solid var(--line);
-    border-radius:14px;padding:28px;position:relative}
-  .card::before{content:"";position:absolute;top:0;left:22px;right:22px;height:2px;
-    background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.7}
+    border-radius:4px;padding:32px;position:relative}
+  .card .icon-badge{width:44px;height:44px;border-radius:4px;background:rgba(126,171,219,.1);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+  .card .icon-badge svg{width:22px;height:22px}
   .card .kicker{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-bright);font-weight:600}
   .card h3{font-size:21px;margin:10px 0 12px;color:var(--steel-bright)}
-  .card p{color:var(--muted);font-size:14.5px;margin:0 0 16px}
-  .card ul{margin:0 0 20px;padding-left:18px;color:var(--muted);font-size:13.5px}
-  .card ul li{margin:6px 0}
+  .card p{color:var(--muted);font-size:14.5px;margin:0 0 18px}
+  .card ul{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:9px}
+  .card ul li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--muted)}
   .card .cta{display:inline-block;font-family:"Oswald";font-size:13px;font-weight:600;letter-spacing:.05em;
-    text-transform:uppercase;color:var(--ink);background:var(--steel-bright);padding:10px 20px;
-    border-radius:8px;text-decoration:none}
+    text-transform:uppercase;color:var(--ink);background:var(--steel-bright);padding:11px 22px;
+    border-radius:3px;text-decoration:none;transition:background .2s}
   .card .cta:hover{background:#fff}
-  .card .status{display:block;margin-top:12px;font-size:11.5px;color:var(--muted);letter-spacing:.04em}
-  .roadmap-note{max-width:640px;margin:36px auto 0;text-align:center;color:var(--muted);font-size:13px;
-    border-top:1px solid var(--line);padding-top:22px}
+  .card .status{display:block;margin-top:14px;font-size:11.5px;color:var(--muted);letter-spacing:.04em}
+  .roadmap-note{max-width:640px;margin:40px auto 0;text-align:center;color:var(--muted);font-size:13px}
 
-  .contact-box{max-width:480px;margin:0 auto;text-align:center;background:var(--stone-1);
-    border:1px solid var(--line);border-radius:14px;padding:34px}
-  .contact-box a.mail{font-family:"Oswald";font-size:19px;font-weight:600;letter-spacing:.02em}
-  .contact-box p{color:var(--muted);font-size:13.5px;margin-top:12px}
+  .contact-box{max-width:520px;margin:0 auto;text-align:center;background:var(--stone-1);
+    border:1px solid var(--line);border-radius:4px;padding:40px}
+  .contact-box a.mail{font-family:"Oswald";font-size:20px;font-weight:600;letter-spacing:.02em;text-decoration:none}
+  .contact-box a.mail:hover{color:#fff}
+  .contact-box p{color:var(--muted);font-size:13.5px;margin-top:14px}
 
-  footer{border-top:1px solid var(--line);padding:30px 28px 44px;text-align:center;color:var(--muted);font-size:12px}
+  footer{border-top:1px solid var(--line);padding:32px 28px 46px;text-align:center;color:var(--muted);font-size:12px}
   footer .flinks{margin-top:10px}
   footer .flinks a{color:var(--steel);text-decoration:none;margin:0 10px}
   footer .flinks a:hover{color:var(--steel-bright)}
 
-  @media (max-width:820px){
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;text-align:left;padding-top:56px}
+    .hero-visual{padding:10px 0 30px}
     .about-grid{grid-template-columns:1fr}
-    .about-grid .portrait{max-width:340px;margin:0 auto}
+    .portrait-frame{max-width:360px;margin:0 auto;aspect-ratio:1/1}
   }
   @media (max-width:640px){
-    .topbar{flex-direction:column;gap:10px;padding:14px}
-    nav.links{gap:14px;flex-wrap:wrap;justify-content:center}
-    section{padding:48px 18px}
+    .topbar{padding:14px 18px}
+    nav.links{display:none}
+    section{padding:52px 18px}
   }
 </style>
 </head>
@@ -131,25 +155,35 @@
 </header>
 
 <section class="hero">
-  <div class="eyebrow">Berlin · Einzelunternehmen · Sebastian Keil</div>
-  <img class="logo" src="./logo_transparent.png" alt="STEINWALL Wappen"/>
-  <div class="sub">Internet Security &amp; IT-Dienstleistungen</div>
-  <h1>Ihre digitale Festung</h1>
-  <p class="tagline">Wir bauen und betreiben eigenständige Sicherheits- und IT-Prüfprodukte für
-    Privatpersonen und kleine Unternehmen — entwickelt, geprüft und persönlich betreut von einem
-    einzigen Verantwortlichen statt einem anonymen Callcenter.</p>
-  <div class="stats">
-    <div><strong>2</strong>marktreife Produkte</div>
-    <div><strong>Berlin</strong>Firmensitz</div>
-    <div><strong>DE463568578</strong>USt-IdNr.</div>
+  <div>
+    <div class="eyebrow">Berlin · Einzelunternehmen · gegründet von Sebastian Keil</div>
+    <div class="sub">Internet Security &amp; IT-Dienstleistungen</div>
+    <h1>Ihre digitale Festung</h1>
+    <p class="tagline">Wir bauen und betreiben eigenständige Sicherheits- und IT-Prüfprodukte für
+      Privatpersonen und kleine Unternehmen — entwickelt, geprüft und persönlich betreut von einem
+      einzigen Verantwortlichen statt einem anonymen Callcenter.</p>
+    <div class="stats">
+      <div><strong>2</strong>marktreife Produkte</div>
+      <div><strong>Berlin</strong>Firmensitz</div>
+      <div><strong>DE463568578</strong>USt-IdNr.</div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img src="./logo_transparent.png" alt="STEINWALL Wappen"/>
   </div>
 </section>
 
+<div class="seam"></div>
+
 <section id="about">
-  <div class="eyebrow-label">Über uns</div>
-  <h2 class="section-title">Ein Verantwortlicher, echte Handarbeit</h2>
   <div class="about-grid">
-    <div>
+    <div class="portrait-frame reveal">
+      <img src="./team_portrait.jpg" alt="Sicherheitsarbeit bei STEINWALL – symbolische Darstellung"/>
+      <div class="tag">Digitale Sicherheit ist Handarbeit</div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow-label">Über uns</div>
+      <h2 class="section-title">Ein Verantwortlicher, echte Handarbeit</h2>
       <p>STEINWALL ist kein Callcenter mit Skripten, sondern ein von Berlin aus geführtes
         Einzelunternehmen für Internet Security &amp; IT-Dienstleistungen. Jedes Produkt wird
         persönlich entwickelt, geprüft und weiterentwickelt — mit klarer Verantwortung statt
@@ -157,48 +191,51 @@
       <p>Der Name ist Programm: eine STEINWALL soll das sein, was der Name sagt — eine solide,
         nachvollziehbare Schutzmauer zwischen Ihnen und den Risiken des digitalen Alltags. Kein
         Marketing-Versprechen, sondern zwei konkrete, nutzbare Produkte.</p>
-      <div class="facts">
-        <div><strong>Guardian</strong>Digitale Sicherheit</div>
-        <div><strong>IT-TÜV</strong>IT-Sicherheits-Check</div>
-      </div>
-    </div>
-    <div class="portrait">
-      <img src="./team_portrait.jpg" alt="STEINWALL im Einsatz"/>
-      <div class="cap"><strong>Sebastian Keil</strong>Gründer &amp; Verantwortlicher, STEINWALL</div>
+      <ul>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.4 8 11 4.6-2.6 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg> Gegründet und geführt von Sebastian Keil persönlich</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.4 8 11 4.6-2.6 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg> Lokal betriebene KI-Modelle statt großer Cloud-Abhängigkeiten</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.4 8 11 4.6-2.6 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg> Zwei eigenständige, marktreife Produktlinien</li>
+      </ul>
     </div>
   </div>
 </section>
 
+<div class="seam"></div>
+
 <section id="produkte">
-  <div class="eyebrow-label">Produkte</div>
-  <h2 class="section-title">Was STEINWALL heute anbietet</h2>
+  <div class="section-head center reveal">
+    <div class="eyebrow-label">Produkte</div>
+    <h2 class="section-title">Was STEINWALL heute anbietet</h2>
+  </div>
   <div class="products">
-    <div class="card">
+    <div class="card reveal">
+      <div class="icon-badge"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.4 8 11 4.6-2.6 8-6 8-11V5l-8-3Z"/></svg></div>
       <div class="kicker">Digitale Sicherheit</div>
       <h3>STEINWALL Guardian</h3>
       <p>KI-gestützte Erkennung von Beleidigung, Drohung, Betrugsversuch und Belästigung in
         Nachrichten, Screenshots, Videos und Sprachnachrichten — mit automatisch angelegter,
         verschlüsselter Fallakte.</p>
       <ul>
-        <li>Textanalyse bleibt in jedem Tarif kostenlos nutzbar</li>
-        <li>Erkennt gezielte Umgehungsversuche (z. B. Leetspeak)</li>
-        <li>Professioneller PDF-Sicherheitsbericht &amp; Beweis-Export</li>
-        <li>Kontenschutz für TikTok, E-Mail und SMS</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Textanalyse bleibt in jedem Tarif kostenlos nutzbar</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Erkennt gezielte Umgehungsversuche (z. B. Leetspeak)</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Professioneller PDF-Sicherheitsbericht &amp; Beweis-Export</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Kontenschutz für TikTok, E-Mail und SMS</li>
       </ul>
       <a class="cta" href="mailto:steinwall.ai@gmail.com?subject=STEINWALL%20Guardian%20-%20Zugang">Zugang anfragen</a>
       <span class="status">Aktiv in Entwicklung</span>
     </div>
-    <div class="card">
+    <div class="card reveal">
+      <div class="icon-badge"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg></div>
       <div class="kicker">IT-Sicherheit</div>
       <h3>STEINWALL IT-TÜV</h3>
       <p>Verständlicher IT-Sicherheits-Check für Privatpersonen und kleine Unternehmen — ein
         Scan-Skript prüft den eigenen Rechner, ein Prüfsiegel-Bericht erklärt die Ergebnisse in
         Klartext statt Fachjargon.</p>
       <ul>
-        <li>Einzel-Tarif und Firmen-Paket für mehrere Geräte</li>
-        <li>Premium-PDF-Bericht mit Ampel-Bewertung je Kategorie</li>
-        <li>Wiederkehrende Scans über Laufzeit-Pakete buchbar</li>
-        <li>Kein Agenten-Dauerbetrieb — Scan läuft nur auf Wunsch</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Einzel-Tarif und Firmen-Paket für mehrere Geräte</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Premium-PDF-Bericht mit Ampel-Bewertung je Kategorie</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Wiederkehrende Scans über Laufzeit-Pakete buchbar</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg> Kein Agenten-Dauerbetrieb — Scan läuft nur auf Wunsch</li>
       </ul>
       <a class="cta" href="mailto:steinwall.ai@gmail.com?subject=STEINWALL%20IT-T%C3%9CV%20-%20Zugang">Zugang anfragen</a>
       <span class="status">Aktiv in Entwicklung</span>
@@ -208,10 +245,14 @@
     werden hier ergänzt, sobald sie kundenreif sind.</p>
 </section>
 
+<div class="seam"></div>
+
 <section id="kontakt">
-  <div class="eyebrow-label">Kontakt</div>
-  <h2 class="section-title">Fragen, Zugang oder Presse</h2>
-  <div class="contact-box">
+  <div class="section-head center reveal">
+    <div class="eyebrow-label">Kontakt</div>
+    <h2 class="section-title">Fragen, Zugang oder Presse</h2>
+  </div>
+  <div class="contact-box reveal">
     <a class="mail" href="mailto:steinwall.ai@gmail.com">steinwall.ai@gmail.com</a>
     <p>Wir antworten persönlich — STEINWALL ist ein Einzelunternehmen, keine Support-Warteschlange.</p>
   </div>
@@ -225,6 +266,17 @@
     <a href="./agb.html">AGB (Guardian)</a>
   </div>
 </footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) { els.forEach(function(e){e.classList.add('in')}); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {threshold:.15});
+    els.forEach(function(e){ io.observe(e); });
+  })();
+</script>
 
 </body>
 </html>
