@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>STEINWALL IT-TÜV — Digitaler Sicherheits-Check für deinen PC</title>
+<meta name="description" content="Verständlicher IT-Sicherheits-Check für Privatpersonen und kleine Unternehmen ohne eigene IT-Abteilung. Ampel-Bewertung statt Fachchinesisch."/>
+<link rel="icon" href="./it-tuev-logo-mark.png" type="image/png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12161c; --surface:#1a2029; --steel:#3a4552;
+    --brass:#c08a4e; --brass-bright:#e0ad6d; --brass-soft:rgba(192,138,78,.14);
+    --text:#edeff2; --muted:#9aa4b0; --green:#4caf6d;
+    --line:rgba(255,255,255,.09);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{margin:0;background:var(--ink);color:var(--text);
+    font-family:"Public Sans",-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.65;font-size:16px}
+  h1,h2,h3{font-family:"Oswald",Impact,sans-serif;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance;margin:0}
+  a{color:var(--brass-bright)}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
+    background:rgba(18,22,28,.85);border-bottom:1px solid var(--line)}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1080px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:10px;font-family:"Oswald";font-weight:600;letter-spacing:.05em;font-size:15px;text-transform:uppercase}
+  .brand img{height:26px;width:auto}
+  nav.links{display:flex;gap:24px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+  nav.links a{color:var(--muted);text-decoration:none}
+  nav.links a:hover{color:var(--text)}
+
+  .hero{text-align:center;padding:76px 28px 60px}
+  .hero .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--brass-bright);background:var(--brass-soft);
+    border-radius:999px;padding:7px 16px;margin-bottom:26px}
+  .hero .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
+  .hero img.logo{width:min(220px,55vw);margin:0 auto 26px}
+  .hero h1{font-size:clamp(30px,4.6vw,52px);color:var(--text);margin-bottom:16px}
+  .hero h1 em{font-style:italic;color:var(--brass-bright)}
+  .hero p.lede{max-width:600px;margin:0 auto;color:var(--muted);font-size:16.5px}
+
+  section{padding:60px 28px}
+  .section-code{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-bright);
+    display:block;text-align:center;margin-bottom:8px;font-weight:600}
+  h2.title{text-align:center;font-size:clamp(22px,3vw,30px);margin-bottom:8px}
+  p.sub{text-align:center;color:var(--muted);font-size:14.5px;max-width:560px;margin:0 auto 36px}
+
+  .ampel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;max-width:960px;margin:0 auto}
+  .check-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;
+    display:flex;align-items:center;gap:10px;font-size:13.5px}
+  .check-card .code{font-family:"Oswald";color:var(--brass-bright);font-size:12px;min-width:28px}
+
+  .protocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:960px;margin:0 auto}
+  .protocol-step{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px}
+  .protocol-step .tag{font-family:"Oswald";font-size:11px;letter-spacing:.08em;color:var(--brass-bright);
+    text-transform:uppercase;margin-bottom:10px}
+  .protocol-step h3{font-size:17px;margin-bottom:8px;color:var(--text)}
+  .protocol-step p{font-size:13.5px;color:var(--muted);margin:0}
+  .protocol-note{text-align:center;color:var(--muted);font-size:13.5px;max-width:640px;margin:28px auto 0}
+
+  .plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:700px;margin:0 auto 30px}
+  .plan-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:26px;text-align:center}
+  .plan-name{font-family:"Oswald";font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .plan-price{font-family:"Oswald";font-size:34px;color:var(--brass-bright);margin:10px 0 6px}
+  .plan-detail{font-size:13px;color:var(--muted)}
+  .duration-note{text-align:center;color:var(--muted);font-size:13px;max-width:520px;margin:0 auto 30px}
+  .cta-center{text-align:center}
+  .cta{display:inline-block;font-family:"Oswald";font-size:14px;font-weight:600;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--ink);background:var(--brass-bright);padding:13px 28px;
+    border-radius:4px;text-decoration:none}
+  .cta:hover{background:#fff}
+
+  .faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+  .faq-item{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 20px}
+  .faq-item summary{cursor:pointer;font-weight:600;font-size:14.5px;color:var(--text)}
+  .faq-item p{margin:10px 0 0;color:var(--muted);font-size:13.5px}
+
+  .contact-box{max-width:480px;margin:0 auto;text-align:center;background:var(--surface);
+    border:1px solid var(--line);border-radius:8px;padding:34px}
+  .contact-box a.mail{font-family:"Oswald";font-size:18px;font-weight:600;text-decoration:none}
+  .contact-box p{color:var(--muted);font-size:13px;margin-top:12px}
+
+  footer{border-top:1px solid var(--line);padding:28px 28px 40px;text-align:center;color:var(--muted);font-size:12px}
+  footer .flinks{margin-top:10px}
+  footer .flinks a{color:var(--steel);text-decoration:none;margin:0 10px}
+  footer .flinks a:hover{color:var(--brass-bright)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="topbar">
+    <div class="brand"><img src="./it-tuev-logo-mark.png" alt="STEINWALL IT-TÜV"/> STEINWALL IT-TÜV</div>
+    <nav class="links">
+      <a href="#pruefumfang">Prüfumfang</a>
+      <a href="#preise">Preise</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="chip"><span class="dot"></span>Prüfverfahren · Ampel-System</div>
+  <img class="logo" src="./it-tuev-logo-full.png" alt="STEINWALL IT-TÜV"/>
+  <h1>Digitaler TÜV<br>für <em>deinen PC</em></h1>
+  <p class="lede">Ein verständlicher Sicherheits-Kurzcheck für Solo-Selbstständige und
+    Kleinunternehmer ohne eigene IT-Abteilung. Kein Fachchinesisch, keine 100-Seiten-Berichte —
+    nur Ampel, Erklärung, konkrete nächste Schritte.</p>
+</section>
+
+<section id="pruefumfang">
+  <span class="section-code">§ 01–07 — Prüfumfang</span>
+  <h2 class="title">Was wird geprüft?</h2>
+  <p class="sub">7 echte, objektive Bereiche — deterministisch geprüft, nicht geraten.</p>
+  <div class="ampel-grid">
+    <div class="check-card"><span class="code">§01</span> Virenschutz</div>
+    <div class="check-card"><span class="code">§02</span> Firewall</div>
+    <div class="check-card"><span class="code">§03</span> Offene Netzwerk-Dienste</div>
+    <div class="check-card"><span class="code">§04</span> Bedrohungshistorie</div>
+    <div class="check-card"><span class="code">§05</span> Anmeldeereignisse</div>
+    <div class="check-card"><span class="code">§06</span> Administrator-Konten</div>
+    <div class="check-card"><span class="code">§07</span> Autostart-Programme</div>
+  </div>
+</section>
+
+<section>
+  <span class="section-code">§ 08 — Ablauf</span>
+  <h2 class="title">So funktioniert's</h2>
+  <p class="sub">Der Scan läuft lesend auf deinem eigenen Rechner — wir sehen nur die
+    Prüfergebnisse, kein Fernzugriff.</p>
+  <div class="protocol">
+    <div class="protocol-step">
+      <div class="tag">Schritt 01</div>
+      <h3>Kaufen</h3>
+      <p>Name, E-Mail und Paket wählen, sicher bezahlen — dein Zugang ist sofort freigeschaltet.</p>
+    </div>
+    <div class="protocol-step">
+      <div class="tag">Schritt 02</div>
+      <h3>App öffnen</h3>
+      <p>Dein Kundenportal — von dort startest du jeden Scan und siehst deinen Verlauf.</p>
+    </div>
+    <div class="protocol-step">
+      <div class="tag">Schritt 03</div>
+      <h3>Scannen</h3>
+      <p>Ein Klick lädt das Prüf-Skript, läuft nur lesend — verändert nichts an deinem System.</p>
+    </div>
+    <div class="protocol-step">
+      <div class="tag">Schritt 04</div>
+      <h3>Bericht in der App</h3>
+      <p>Dein Premium-PDF erscheint direkt im Portal — ansehen, exportieren, jederzeit erneut abrufen.</p>
+    </div>
+  </div>
+  <p class="protocol-note">Kein Abo, keine Kündigung nötig — dein Paket läuft nach 30 Tagen oder
+    Verbrauch des Kontingents einfach aus. Danach im Portal jederzeit erweiterbar.</p>
+</section>
+
+<section id="preise">
+  <span class="section-code">§ 09 — Siegel</span>
+  <h2 class="title">Prüfsiegel beantragen</h2>
+  <p class="sub">30 Tage gültig, danach einfach im Portal erweitern — kein Abo, keine Kündigung nötig.</p>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-name">Einzelplatz</div>
+      <div class="plan-price">9,99&nbsp;€</div>
+      <div class="plan-detail">1 Gerät · 5 Scans / Monat</div>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Firmen-Paket</div>
+      <div class="plan-price">79,99&nbsp;€</div>
+      <div class="plan-detail">bis zu 10 Geräte · 25 Scans / Monat</div>
+    </div>
+  </div>
+  <p class="duration-note">Laufzeiten von 1–12 Monaten buchbar, mit bis zu 20% Rabatt bei längerer
+    Laufzeit — Details beim Zugang.</p>
+  <div class="cta-center">
+    <a class="cta" href="mailto:steinwall.ai@gmail.com?subject=STEINWALL%20IT-T%C3%9CV%20-%20Zugang">Zugang anfragen</a>
+  </div>
+</section>
+
+<section id="faq">
+  <span class="section-code">§ 10 — FAQ</span>
+  <h2 class="title">Häufige Fragen</h2>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>Ist das ein Penetrationstest oder vollständiges Sicherheitsaudit?</summary>
+      <p>Nein. Es ist ein Kurzcheck von 7 konkreten, deterministisch geprüften Bereichen zu einem
+        Zeitpunkt. Kein Penetrationstest, keine Garantie für Bedrohungsfreiheit.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Wie oft kann ich scannen?</summary>
+      <p>Je nach Paket 5 (Einzelplatz) oder 25 (Firmen-Paket) Scans, gültig für die gewählte
+        Laufzeit (1–12 Monate). Kontingent und Ablaufdatum siehst du jederzeit in deinem
+        Kundenportal.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Läuft das auf mehreren Geräten / für meine ganze Firma?</summary>
+      <p>Ja. Deine Kunden-ID ist nicht an einen PC gebunden — führe den Scan auf jedem Gerät aus,
+        das du prüfen willst. Alle Ergebnisse laufen unter demselben Konto zusammen.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Was passiert mit meinen Daten?</summary>
+      <p>Der Scan läuft rein lesend auf deinem Rechner. Nur die Prüfergebnisse werden
+        übermittelt — kein Fernzugriff.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Muss ich kündigen, wenn ich nicht mehr weiter nutzen will?</summary>
+      <p>Nein. Es ist kein Abo — eine Einmalzahlung im Voraus, die nach der gewählten Laufzeit
+        automatisch endet. Keine Kündigung, keine automatische Abbuchung.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Wie lange dauert ein Scan?</summary>
+      <p>Rund eine Minute. Danach wird der Bericht automatisch erzeugt und erscheint in deinem
+        Portal, zusätzlich per E-Mail.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Ich brauche PowerShell-Hilfe oder habe ein technisches Problem.</summary>
+      <p>Kein Problem — schreib uns über den Kontakt unten, wir melden uns persönlich.</p>
+    </details>
+  </div>
+</section>
+
+<section id="kontakt">
+  <span class="section-code">§ 11 — Support</span>
+  <h2 class="title">Fragen? Wir helfen persönlich.</h2>
+  <p class="sub">Kein Chatbot, keine Warteschleife.</p>
+  <div class="contact-box">
+    <a class="mail" href="mailto:steinwall.ai@gmail.com">steinwall.ai@gmail.com</a>
+    <p>Wir antworten persönlich — STEINWALL ist ein Einzelunternehmen, keine Support-Warteschlange.</p>
+  </div>
+</section>
+
+<footer>
+  STEINWALL, Einzelunternehmen (Inhaber: Sebastian Keil) · Lindenallee 2, 14050 Berlin
+  <div class="flinks">
+    <a href="./index.html">Zur Startseite</a>
+    <a href="./impressum.html">Impressum</a>
+    <a href="./datenschutz.html">Datenschutz (Guardian)</a>
+    <a href="./agb.html">AGB (Guardian)</a>
+  </div>
+</footer>
+
+</body>
+</html>
