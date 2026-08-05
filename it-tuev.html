@@ -1,249 +1,617 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>STEINWALL IT-TÜV — Digitaler Sicherheits-Check für deinen PC</title>
-<meta name="description" content="Verständlicher IT-Sicherheits-Check für Privatpersonen und kleine Unternehmen ohne eigene IT-Abteilung. Ampel-Bewertung statt Fachchinesisch."/>
-<link rel="icon" href="./it-tuev-logo-mark.png" type="image/png"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STEINWALL IT-TÜV — Digitaler Sicherheits-TÜV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#12161c; --surface:#1a2029; --steel:#3a4552;
-    --brass:#c08a4e; --brass-bright:#e0ad6d; --brass-soft:rgba(192,138,78,.14);
-    --text:#edeff2; --muted:#9aa4b0; --green:#4caf6d;
-    --line:rgba(255,255,255,.09);
+  /* ============ 1. DESIGN TOKENS ============ */
+  :root {
+    --bg: #0B0E12;
+    --surface: #12161C;
+    --surface-2: #1A2029;
+    --steel: #3A4552;
+    --steel-soft: rgba(58, 69, 82, 0.45);
+    --brass: #C08A4E;
+    --brass-bright: #E0AD6D;
+    --brass-soft: rgba(192, 138, 78, 0.14);
+    --signal-green: #4CAF6D;
+    --signal-amber: #E0A83E;
+    --signal-red: #D65A4A;
+    --text-primary: #EDEFF2;
+    /* Fix (Design-Review): das exakt vorgegebene --text-muted (#8A94A3) liegt auf --bg bei
+       ~3.5:1 Kontrast - reicht fuer AA-Large (Badges/Mono-Chips >=14px bold), aber NICHT fuer
+       echten Fliesstext <16px (braucht 4.5:1). Deshalb zusaetzlich --text-secondary fuer
+       Absatztext, --text-muted bleibt fuer grossformatige/fette Mono-Labels reserviert. */
+    --text-muted: #8A94A3;
+    --text-secondary: #A3ACB9;
+    --font-display: "Fraunces", serif;
+    --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
   }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
-  body{margin:0;background:var(--ink);color:var(--text);
-    font-family:"Public Sans",-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.65;font-size:16px}
-  h1,h2,h3{font-family:"Oswald",Impact,sans-serif;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance;margin:0}
-  a{color:var(--brass-bright)}
-  img{max-width:100%;display:block}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
 
-  header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
-    background:rgba(18,22,28,.85);border-bottom:1px solid var(--line)}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1080px;margin:0 auto}
-  .brand{display:flex;align-items:center;gap:10px;font-family:"Oswald";font-weight:600;letter-spacing:.05em;font-size:15px;text-transform:uppercase}
-  .brand img{height:26px;width:auto}
-  nav.links{display:flex;gap:24px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
-  nav.links a{color:var(--muted);text-decoration:none}
-  nav.links a:hover{color:var(--text)}
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+  a { color: var(--brass-bright); }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; margin: 0 0 10px; color: var(--text-primary); }
+  button { font-family: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--brass-bright); outline-offset: 3px; border-radius: 2px; }
 
-  .hero{text-align:center;padding:76px 28px 60px}
-  .hero .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.08em;
-    text-transform:uppercase;color:var(--brass-bright);background:var(--brass-soft);
-    border-radius:999px;padding:7px 16px;margin-bottom:26px}
-  .hero .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
-  .hero img.logo{width:min(220px,55vw);margin:0 auto 26px}
-  .hero h1{font-size:clamp(30px,4.6vw,52px);color:var(--text);margin-bottom:16px}
-  .hero h1 em{font-style:italic;color:var(--brass-bright)}
-  .hero p.lede{max-width:600px;margin:0 auto;color:var(--muted);font-size:16.5px}
+  /* ============ Blueprint-Rasterlinien-Hintergrund ============ */
+  .blueprint-bg {
+    position: fixed; inset: -10% -10% -10% -10%; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--steel) 1px, transparent 1px),
+      linear-gradient(90deg, var(--steel) 1px, transparent 1px);
+    background-size: 44px 44px;
+    opacity: 0.045;
+    will-change: transform;
+  }
+  .grain-vignette {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 0%, rgba(192,138,78,0.06), transparent 55%),
+                radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.5), transparent 60%);
+  }
 
-  section{padding:60px 28px}
-  .section-code{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-bright);
-    display:block;text-align:center;margin-bottom:8px;font-weight:600}
-  h2.title{text-align:center;font-size:clamp(22px,3vw,30px);margin-bottom:8px}
-  p.sub{text-align:center;color:var(--muted);font-size:14.5px;max-width:560px;margin:0 auto 36px}
+  nav { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; max-width: 860px; margin: 0 auto; padding: 26px 24px 0; }
+  .brand { display: flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; color: var(--text-secondary); }
+  .brand b { color: var(--brass-bright); font-weight: 600; }
+  .nav-logo { height: 28px; width: auto; }
+  .hero-logo {
+    display: block; margin: 0 auto 8px; width: min(360px, 78vw); height: auto;
+    filter: drop-shadow(0 0 46px rgba(192,138,78,0.22));
+  }
 
-  .ampel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;max-width:960px;margin:0 auto}
-  .check-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;
-    display:flex;align-items:center;gap:10px;font-size:13.5px}
-  .check-card .code{font-family:"Oswald";color:var(--brass-bright);font-size:12px;min-width:28px}
+  main { position: relative; z-index: 2; max-width: 860px; margin: 0 auto; padding: 20px 24px 100px; }
 
-  .protocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:960px;margin:0 auto}
-  .protocol-step{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px}
-  .protocol-step .tag{font-family:"Oswald";font-size:11px;letter-spacing:.08em;color:var(--brass-bright);
-    text-transform:uppercase;margin-bottom:10px}
-  .protocol-step h3{font-size:17px;margin-bottom:8px;color:var(--text)}
-  .protocol-step p{font-size:13.5px;color:var(--muted);margin:0}
-  .protocol-note{text-align:center;color:var(--muted);font-size:13.5px;max-width:640px;margin:28px auto 0}
+  /* ============ Mono-Referenzcode-Chip ============ */
+  .ref-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.09em;
+    color: var(--brass-bright); background: var(--brass-soft);
+    border: 1px solid rgba(192,138,78,0.35);
+    padding: 6px 14px; text-transform: uppercase;
+  }
+  .ref-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal-green); box-shadow: 0 0 6px var(--signal-green); }
 
-  .plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:700px;margin:0 auto 30px}
-  .plan-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:26px;text-align:center}
-  .plan-name{font-family:"Oswald";font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-  .plan-price{font-family:"Oswald";font-size:34px;color:var(--brass-bright);margin:10px 0 6px}
-  .plan-detail{font-size:13px;color:var(--muted)}
-  .duration-note{text-align:center;color:var(--muted);font-size:13px;max-width:520px;margin:0 auto 30px}
-  .cta-center{text-align:center}
-  .cta{display:inline-block;font-family:"Oswald";font-size:14px;font-weight:600;letter-spacing:.05em;
-    text-transform:uppercase;color:var(--ink);background:var(--brass-bright);padding:13px 28px;
-    border-radius:4px;text-decoration:none}
-  .cta:hover{background:#fff}
+  .section-code {
+    position: absolute; top: 18px; right: 22px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--text-muted);
+  }
 
-  .faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
-  .faq-item{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 20px}
-  .faq-item summary{cursor:pointer;font-weight:600;font-size:14.5px;color:var(--text)}
-  .faq-item p{margin:10px 0 0;color:var(--muted);font-size:13.5px}
+  /* ============ HERO ============ */
+  .hero { position: relative; text-align: center; padding: 56px 20px 20px; margin-bottom: 30px; }
+  .hero .ref-chip { margin-bottom: 22px; }
+  .hero h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.12; letter-spacing: -0.015em; }
+  .hero h1 em { font-style: italic; color: var(--brass-bright); }
+  .hero p.lede { color: var(--text-secondary); font-size: 16px; max-width: 520px; margin: 14px auto 0; }
 
-  .contact-box{max-width:480px;margin:0 auto;text-align:center;background:var(--surface);
-    border:1px solid var(--line);border-radius:8px;padding:34px}
-  .contact-box a.mail{font-family:"Oswald";font-size:18px;font-weight:600;text-decoration:none}
-  .contact-box p{color:var(--muted);font-size:13px;margin-top:12px}
+  /* ============ 2. GAUGE — Signatur-Element ============ */
+  .gauge-wrap { position: relative; display: flex; flex-direction: column; align-items: center; margin: 40px auto 10px; }
+  .gauge-svg { width: min(340px, 84vw); height: auto; overflow: visible; }
+  .gauge-tick { fill: var(--steel); transition: fill .3s ease; }
+  .gauge-tick.active { fill: var(--brass-bright); }
+  .gauge-tick-label { font-family: var(--font-mono); font-size: 7.5px; fill: var(--text-muted); opacity: 0; transition: opacity .35s ease, fill .3s ease; letter-spacing: 0.03em; }
+  .gauge-tick-label.active { opacity: 1; fill: var(--brass-bright); }
+  .gauge-needle { transform-origin: 150px 160px; transform: rotate(-84deg); }
+  .gauge-needle.sweep { animation: needleSweep 2.6s cubic-bezier(.2,.8,.15,1) forwards; }
+  @keyframes needleSweep {
+    0%   { transform: rotate(-84deg); }
+    38%  { transform: rotate(-14deg); }
+    39%  { transform: rotate(-17deg); }
+    68%  { transform: rotate(24deg); }
+    69%  { transform: rotate(21deg); }
+    100% { transform: rotate(32deg); }
+  }
+  .gauge-caption { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; margin-top: 6px; }
+  .gauge-caption b { color: var(--signal-green); }
+  .serial { position: absolute; top: 4px; right: 0; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.05em; writing-mode: vertical-rl; text-orientation: mixed; opacity: .6; }
 
-  footer{border-top:1px solid var(--line);padding:28px 28px 40px;text-align:center;color:var(--muted);font-size:12px}
-  footer .flinks{margin-top:10px}
-  footer .flinks a{color:var(--steel);text-decoration:none;margin:0 10px}
-  footer .flinks a:hover{color:var(--brass-bright)}
+  /* ============ Prüfbericht-Karten ============ */
+  .report-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--steel-soft);
+    padding: 26px 26px 24px;
+    margin-bottom: 20px;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .55s ease, transform .55s ease, border-color .25s ease, transform .25s ease;
+    overflow: hidden;
+  }
+  .report-card.in-view { opacity: 1; transform: translateY(0); }
+  .report-card::after {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 100%;
+    background: linear-gradient(100deg, transparent 40%, rgba(224,173,109,0.16) 50%, transparent 60%);
+    transform: translateX(-120%);
+    pointer-events: none;
+  }
+  .report-card.in-view::after { animation: scanBeam .7s ease-out; }
+  @keyframes scanBeam { to { transform: translateX(120%); } }
+
+  .report-card h2 { font-size: 19px; }
+  .report-card .sub { color: var(--text-secondary); font-size: 14px; margin-bottom: 18px; }
+
+  .ampel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 8px; }
+  .check-card {
+    position: relative;
+    background: var(--surface-2); border: 1px solid var(--steel-soft);
+    padding: 16px 16px 14px; font-size: 13.5px;
+    transition: transform .2s ease, border-color .2s ease;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .check-card:hover { transform: translateY(-4px); border-color: var(--brass); }
+  .check-card .icon { flex-shrink: 0; color: var(--text-muted); transition: color .2s ease; margin-top: 1px; }
+  .check-card:hover .icon { color: var(--brass-bright); }
+  .check-card .code { position: absolute; top: 8px; right: 10px; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); letter-spacing: 0.05em; }
+  .check-card .label { padding-top: 1px; }
+
+  /* ============ Prüfprotokoll-Zeitstrahl ("So funktioniert's") ============ */
+  .protocol { position: relative; padding-left: 34px; margin-top: 6px; }
+  .protocol::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--steel); }
+  .protocol-step { position: relative; padding-bottom: 26px; }
+  .protocol-step:last-child { padding-bottom: 0; }
+  .protocol-step::before {
+    content: ""; position: absolute; left: -34px; top: 3px; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--brass); box-shadow: 0 0 0 3px var(--surface);
+  }
+  .protocol-step .tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; color: var(--brass-bright); text-transform: uppercase; }
+  .protocol-step h3 { font-size: 15.5px; margin: 4px 0 4px; font-family: var(--font-body); font-weight: 600; }
+  .protocol-step p { color: var(--text-secondary); font-size: 14px; margin: 0; }
+
+  .btn-brass {
+    display: inline-flex; align-items: center; gap: 8px; position: relative; overflow: hidden;
+    background: var(--brass-bright); color: #1B1206; border: none; font-weight: 600; font-family: var(--font-body);
+    padding: 13px 24px; font-size: 14.5px; transition: transform .15s ease;
+  }
+  .btn-brass::before {
+    content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+    transform: skewX(-20deg);
+  }
+  .btn-brass:hover::before { animation: shimmer .9s ease; }
+  @keyframes shimmer { to { left: 130%; } }
+  .btn-brass:hover { transform: translateY(-1px); }
+  .btn-brass:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-ghost {
+    display: inline-block; background: none; border: 1px solid var(--steel); color: var(--text-secondary);
+    padding: 11px 20px; font-size: 13.5px; text-decoration: none; font-family: var(--font-mono); letter-spacing: 0.03em;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .btn-ghost:hover { border-color: var(--brass); color: var(--brass-bright); }
+
+  /* ============ Prüfsiegel beantragen (Kauf-Panel) ============ */
+  .seal-panel { border-color: rgba(192,138,78,0.3); }
+
+  .faq-list { display: flex; flex-direction: column; }
+  .faq-item { border-bottom: 1px solid var(--steel-soft); padding: 14px 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-item summary {
+    cursor: pointer; font-weight: 600; font-size: 14.5px; list-style: none;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after { content: "+"; color: var(--brass-bright); font-size: 18px; flex-shrink: 0; transition: transform .2s ease; }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item p { color: var(--text-secondary); font-size: 13.5px; margin: 10px 0 0; line-height: 1.6; }
+  .price-tag { font-family: var(--font-mono); color: var(--brass-bright); font-size: 14px; }
+
+  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 22px; }
+  .plan-card {
+    position: relative; display: block; cursor: pointer;
+    background: var(--surface-2); border: 1px solid var(--steel-soft); padding: 16px 16px 14px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .plan-card:hover { transform: translateY(-2px); }
+  .plan-card input { position: absolute; opacity: 0; }
+  .plan-card:has(input:checked) { border-color: var(--brass-bright); background: var(--brass-soft); }
+  .plan-name { font-weight: 600; font-size: 14.5px; }
+  .plan-price { font-family: var(--font-mono); color: var(--brass-bright); font-size: 17px; margin: 6px 0 4px; }
+  .plan-detail { font-size: 12px; color: var(--text-muted); }
+  @media (max-width: 480px) { .plan-grid { grid-template-columns: 1fr; } }
+
+  .duration-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 22px; }
+  .duration-chip {
+    position: relative; cursor: pointer; font-size: 13px; font-family: var(--font-mono);
+    background: var(--surface-2); border: 1px solid var(--steel-soft); padding: 8px 12px;
+    display: flex; align-items: center; gap: 6px; transition: border-color .2s ease;
+  }
+  .duration-chip input { position: absolute; opacity: 0; }
+  .duration-chip:has(input:checked) { border-color: var(--brass-bright); background: var(--brass-soft); color: var(--brass-bright); }
+  .duration-chip .save { color: var(--signal-green); font-size: 11px; }
+  label { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
+  input[type="text"], input[type="email"] {
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--steel);
+    color: var(--text-primary); padding: 9px 2px 12px; font-size: 15px; font-family: var(--font-body);
+    margin-bottom: 22px; transition: border-color .2s ease;
+  }
+  input[type="text"]:focus, input[type="email"]:focus { outline: none; border-bottom-color: var(--brass-bright); }
+
+  .err { color: var(--signal-red); font-size: 13px; margin: -8px 0 14px; }
+  .ok-msg { color: var(--signal-green); font-size: 14px; }
+
+  footer { position: relative; z-index: 2; text-align: center; color: var(--text-muted); font-size: 12px; padding: 30px 24px; line-height: 1.9; font-family: var(--font-mono); }
+  footer a { color: var(--text-secondary); text-decoration: underline; }
+  footer a:hover { color: var(--brass-bright); }
+
+  @media (max-width: 560px) {
+    .hero { padding: 40px 12px 10px; }
+    .report-card { padding: 20px; }
+    .check-card { padding: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .gauge-needle, .gauge-needle.sweep { animation: none !important; transform: rotate(32deg); }
+    .report-card { transition: none; opacity: 1; transform: none; }
+    .report-card::after { display: none; }
+    .check-card, .btn-brass::before, .btn-brass:hover::before { transition: none; animation: none !important; }
+    .gauge-tick, .gauge-tick-label { transition: none; }
+    .blueprint-bg { transition: none; }
+  }
 </style>
 </head>
 <body>
+<div class="blueprint-bg" id="blueprintBg"></div>
+<div class="grain-vignette"></div>
 
-<header class="top">
-  <div class="topbar">
-    <div class="brand"><img src="./it-tuev-logo-mark.png" alt="STEINWALL IT-TÜV"/> STEINWALL IT-TÜV</div>
-    <nav class="links">
-      <a href="#pruefumfang">Prüfumfang</a>
-      <a href="#preise">Preise</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-  </div>
-</header>
+<nav>
+  <div class="brand"><img src="./it-tuev-logo-mark.png" alt="" class="nav-logo">STEINWALL <b>IT-TÜV</b></div>
+  <a href="./index.html" style="font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;color:var(--text-secondary);text-decoration:none">← STEINWALL</a>
+</nav>
 
-<section class="hero">
-  <div class="chip"><span class="dot"></span>Prüfverfahren · Ampel-System</div>
-  <img class="logo" src="./it-tuev-logo-full.png" alt="STEINWALL IT-TÜV"/>
-  <h1>Digitaler TÜV<br>für <em>deinen PC</em></h1>
-  <p class="lede">Ein verständlicher Sicherheits-Kurzcheck für Solo-Selbstständige und
-    Kleinunternehmer ohne eigene IT-Abteilung. Kein Fachchinesisch, keine 100-Seiten-Berichte —
-    nur Ampel, Erklärung, konkrete nächste Schritte.</p>
-</section>
+<main>
 
-<section id="pruefumfang">
-  <span class="section-code">§ 01–07 — Prüfumfang</span>
-  <h2 class="title">Was wird geprüft?</h2>
-  <p class="sub">7 echte, objektive Bereiche — deterministisch geprüft, nicht geraten.</p>
-  <div class="ampel-grid">
-    <div class="check-card"><span class="code">§01</span> Virenschutz</div>
-    <div class="check-card"><span class="code">§02</span> Firewall</div>
-    <div class="check-card"><span class="code">§03</span> Offene Netzwerk-Dienste</div>
-    <div class="check-card"><span class="code">§04</span> Bedrohungshistorie</div>
-    <div class="check-card"><span class="code">§05</span> Anmeldeereignisse</div>
-    <div class="check-card"><span class="code">§06</span> Administrator-Konten</div>
-    <div class="check-card"><span class="code">§07</span> Autostart-Programme</div>
-  </div>
-</section>
+  <section class="hero">
+    <img src="./it-tuev-logo-full.png" alt="STEINWALL IT-TÜV" class="hero-logo">
+    <span class="ref-chip"><span class="dot"></span>Prüfverfahren · Ampel-System</span>
+    <h1>Digitaler TÜV<br>für <em>deinen PC</em></h1>
+    <p class="lede">Ein verständlicher Sicherheits-Kurzcheck für Solo-Selbstständige und Kleinunternehmer ohne eigene IT-Abteilung. Kein Fachchinesisch, keine 100-Seiten-Berichte — nur Ampel, Erklärung, konkrete nächste Schritte.</p>
 
-<section>
-  <span class="section-code">§ 08 — Ablauf</span>
-  <h2 class="title">So funktioniert's</h2>
-  <p class="sub">Der Scan läuft lesend auf deinem eigenen Rechner — wir sehen nur die
-    Prüfergebnisse, kein Fernzugriff.</p>
-  <div class="protocol">
-    <div class="protocol-step">
-      <div class="tag">Schritt 01</div>
-      <h3>Kaufen</h3>
-      <p>Name, E-Mail und Paket wählen, sicher bezahlen — dein Zugang ist sofort freigeschaltet.</p>
+    <div class="gauge-wrap">
+      <span class="serial">PRÜFPROTOKOLL · STW-IT-TÜV</span>
+      <svg class="gauge-svg" viewBox="0 0 300 190" aria-hidden="true">
+        <path d="M 34 129 A 120 120 0 0 1 137 41" fill="none" stroke="var(--signal-red)" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+        <path d="M 137 41 A 120 120 0 0 1 163 41" fill="none" stroke="var(--signal-amber)" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+        <path d="M 163 41 A 120 120 0 0 1 266 129" fill="none" stroke="var(--signal-green)" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+
+        <g id="gaugeTicks">
+          <circle class="gauge-tick" data-i="0" cx="34" cy="129" r="4.5"/>
+          <circle class="gauge-tick" data-i="1" cx="58" cy="83" r="4.5"/>
+          <circle class="gauge-tick" data-i="2" cx="99" cy="51" r="4.5"/>
+          <circle class="gauge-tick" data-i="3" cx="150" cy="40" r="4.5"/>
+          <circle class="gauge-tick" data-i="4" cx="201" cy="51" r="4.5"/>
+          <circle class="gauge-tick" data-i="5" cx="242" cy="83" r="4.5"/>
+          <circle class="gauge-tick" data-i="6" cx="266" cy="129" r="4.5"/>
+          <text class="gauge-tick-label" data-i="0" x="34" y="150" text-anchor="middle">§01</text>
+          <text class="gauge-tick-label" data-i="1" x="52" y="72" text-anchor="middle">§02</text>
+          <text class="gauge-tick-label" data-i="2" x="94" y="35" text-anchor="middle">§03</text>
+          <text class="gauge-tick-label" data-i="3" x="150" y="24" text-anchor="middle">§04</text>
+          <text class="gauge-tick-label" data-i="4" x="206" y="35" text-anchor="middle">§05</text>
+          <text class="gauge-tick-label" data-i="5" x="248" y="72" text-anchor="middle">§06</text>
+          <text class="gauge-tick-label" data-i="6" x="266" y="150" text-anchor="middle">§07</text>
+        </g>
+
+        <g class="gauge-needle" id="gaugeNeedle">
+          <line x1="150" y1="160" x2="150" y2="52" stroke="var(--text-primary)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="150" cy="160" r="9" fill="var(--surface)" stroke="var(--brass)" stroke-width="2"/>
+        </g>
+      </svg>
+      <div class="gauge-caption">Kalibrierstatus — <b>bereit zur Prüfung</b></div>
     </div>
-    <div class="protocol-step">
-      <div class="tag">Schritt 02</div>
-      <h3>App öffnen</h3>
-      <p>Dein Kundenportal — von dort startest du jeden Scan und siehst deinen Verlauf.</p>
-    </div>
-    <div class="protocol-step">
-      <div class="tag">Schritt 03</div>
-      <h3>Scannen</h3>
-      <p>Ein Klick lädt das Prüf-Skript, läuft nur lesend — verändert nichts an deinem System.</p>
-    </div>
-    <div class="protocol-step">
-      <div class="tag">Schritt 04</div>
-      <h3>Bericht in der App</h3>
-      <p>Dein Premium-PDF erscheint direkt im Portal — ansehen, exportieren, jederzeit erneut abrufen.</p>
-    </div>
-  </div>
-  <p class="protocol-note">Kein Abo, keine Kündigung nötig — dein Paket läuft nach 30 Tagen oder
-    Verbrauch des Kontingents einfach aus. Danach im Portal jederzeit erweiterbar.</p>
-</section>
+  </section>
 
-<section id="preise">
-  <span class="section-code">§ 09 — Siegel</span>
-  <h2 class="title">Prüfsiegel beantragen</h2>
-  <p class="sub">30 Tage gültig, danach einfach im Portal erweitern — kein Abo, keine Kündigung nötig.</p>
-  <div class="plan-grid">
-    <div class="plan-card">
-      <div class="plan-name">Einzelplatz</div>
-      <div class="plan-price">9,99&nbsp;€</div>
-      <div class="plan-detail">1 Gerät · 5 Scans / Monat</div>
+  <section class="report-card" id="checksCard">
+    <span class="section-code">§ 01–07 — PRÜFUMFANG</span>
+    <h2>Was wird geprüft?</h2>
+    <p class="sub">7 echte, objektive Bereiche — deterministisch geprüft, nicht geraten.</p>
+    <div class="ampel-grid">
+      <div class="check-card"><span class="code">§01</span><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg></span><span class="label">Virenschutz</span></div>
+      <div class="check-card"><span class="code">§02</span><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M8 9V6a4 4 0 018 0v3"/></svg></span><span class="label">Firewall</span></div>
+      <div class="check-card"><span class="code">§03</span><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></span><span class="label">Offene Netzwerk-Dienste</span></div>
+      <div class="check-card"><span class="code">§04</span><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l9 16H3l9-16z"/><path d="M12 10v4M12 17.5h.01"/></svg></span><span class="label">Bedrohungshistorie</span></div>
+      <div class="check-card"><span class="code">§05</span><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg></span><span class="label">Anmeldeereignisse</span></div>
+      <div class="check-card"><span class="code">§06</span><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></span><span class="label">Administrator-Konten</span></div>
+      <div class="check-card"><span class="code">§07</span><span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19l6-15 2 0 6 15M8 15h8"/></svg></span><span class="label">Autostart-Programme</span></div>
     </div>
-    <div class="plan-card">
-      <div class="plan-name">Firmen-Paket</div>
-      <div class="plan-price">79,99&nbsp;€</div>
-      <div class="plan-detail">bis zu 10 Geräte · 25 Scans / Monat</div>
+  </section>
+
+  <section class="report-card">
+    <span class="section-code">§ 08 — ABLAUF</span>
+    <h2>So funktioniert's</h2>
+    <p class="sub">Der Scan läuft lesend auf deinem eigenen Rechner — wir sehen nur die Prüfergebnisse, kein Fernzugriff. Alles andere läuft in deiner App.</p>
+    <div class="protocol">
+      <div class="protocol-step">
+        <div class="tag">Schritt 01</div>
+        <h3>Kaufen</h3>
+        <p>Name, E-Mail und Paket wählen, sicher bei Stripe bezahlen — dein Zugang ist sofort freigeschaltet.</p>
+      </div>
+      <div class="protocol-step">
+        <div class="tag">Schritt 02</div>
+        <h3>App öffnen</h3>
+        <p>Dein <a href="http://127.0.0.1:8846/it-tuev-portal" style="color:var(--brass-bright)">Kundenportal</a> — von dort startest du jeden Scan und siehst deinen Verlauf, kein separates Programm zu installieren.</p>
+      </div>
+      <div class="protocol-step">
+        <div class="tag">Schritt 03</div>
+        <h3>Scannen</h3>
+        <p>Ein Klick lädt das Prüf-Skript, läuft nur lesend — verändert nichts an deinem System.</p>
+      </div>
+      <div class="protocol-step">
+        <div class="tag">Schritt 04</div>
+        <h3>Bericht in der App</h3>
+        <p>Dein Premium-PDF erscheint direkt im Portal — ansehen, exportieren, jederzeit erneut abrufen. Zusätzlich per E-Mail.</p>
+      </div>
     </div>
-  </div>
-  <p class="duration-note">Laufzeiten von 1–12 Monaten buchbar, mit bis zu 20% Rabatt bei längerer
-    Laufzeit — Details beim Zugang.</p>
-  <div class="cta-center">
-    <a class="cta" href="mailto:steinwall.ai@gmail.com?subject=STEINWALL%20IT-T%C3%9CV%20-%20Zugang">Zugang anfragen</a>
-  </div>
-</section>
+    <p class="sub" style="margin-top:20px;margin-bottom:0">Kein Abo, keine Kündigung nötig — dein Paket läuft nach 30 Tagen oder Verbrauch des Kontingents einfach aus. Danach im Portal jederzeit erweiterbar.</p>
+  </section>
 
-<section id="faq">
-  <span class="section-code">§ 10 — FAQ</span>
-  <h2 class="title">Häufige Fragen</h2>
-  <div class="faq-list">
-    <details class="faq-item">
-      <summary>Ist das ein Penetrationstest oder vollständiges Sicherheitsaudit?</summary>
-      <p>Nein. Es ist ein Kurzcheck von 7 konkreten, deterministisch geprüften Bereichen zu einem
-        Zeitpunkt. Kein Penetrationstest, keine Garantie für Bedrohungsfreiheit.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Wie oft kann ich scannen?</summary>
-      <p>Je nach Paket 5 (Einzelplatz) oder 25 (Firmen-Paket) Scans, gültig für die gewählte
-        Laufzeit (1–12 Monate). Kontingent und Ablaufdatum siehst du jederzeit in deinem
-        Kundenportal.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Läuft das auf mehreren Geräten / für meine ganze Firma?</summary>
-      <p>Ja. Deine Kunden-ID ist nicht an einen PC gebunden — führe den Scan auf jedem Gerät aus,
-        das du prüfen willst. Alle Ergebnisse laufen unter demselben Konto zusammen.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Was passiert mit meinen Daten?</summary>
-      <p>Der Scan läuft rein lesend auf deinem Rechner. Nur die Prüfergebnisse werden
-        übermittelt — kein Fernzugriff.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Muss ich kündigen, wenn ich nicht mehr weiter nutzen will?</summary>
-      <p>Nein. Es ist kein Abo — eine Einmalzahlung im Voraus, die nach der gewählten Laufzeit
-        automatisch endet. Keine Kündigung, keine automatische Abbuchung.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Wie lange dauert ein Scan?</summary>
-      <p>Rund eine Minute. Danach wird der Bericht automatisch erzeugt und erscheint in deinem
-        Portal, zusätzlich per E-Mail.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Ich brauche PowerShell-Hilfe oder habe ein technisches Problem.</summary>
-      <p>Kein Problem — schreib uns über den Kontakt unten, wir melden uns persönlich.</p>
-    </details>
-  </div>
-</section>
+  <section class="report-card seal-panel" id="registerCard">
+    <span class="section-code">§ 09 — SIEGEL</span>
+    <h2>Prüfsiegel beantragen</h2>
+    <p class="sub">30 Tage gültig, danach einfach im Portal erweitern — kein Abo, keine Kündigung nötig.</p>
 
-<section id="kontakt">
-  <span class="section-code">§ 11 — Support</span>
-  <h2 class="title">Fragen? Wir helfen persönlich.</h2>
-  <p class="sub">Kein Chatbot, keine Warteschleife.</p>
-  <div class="contact-box">
-    <a class="mail" href="mailto:steinwall.ai@gmail.com">steinwall.ai@gmail.com</a>
-    <p>Wir antworten persönlich — STEINWALL ist ein Einzelunternehmen, keine Support-Warteschlange.</p>
-  </div>
-</section>
+    <div class="plan-grid">
+      <label class="plan-card" data-plan="einzel">
+        <input type="radio" name="plan" value="einzel" checked>
+        <div class="plan-name">Einzelplatz</div>
+        <div class="plan-price" data-base="9.99">9,99&nbsp;€</div>
+        <div class="plan-detail" id="planDetailEinzel">1 Gerät · 5 Scans / Monat</div>
+      </label>
+      <label class="plan-card" data-plan="firma">
+        <input type="radio" name="plan" value="firma">
+        <div class="plan-name">Firmen-Paket</div>
+        <div class="plan-price" data-base="79.99">79,99&nbsp;€</div>
+        <div class="plan-detail" id="planDetailFirma">bis zu 10 Geräte · 25 Scans / Monat</div>
+      </label>
+    </div>
 
+    <label style="margin-top:4px">Laufzeit</label>
+    <div class="duration-row" id="durationRow">
+      <label class="duration-chip" data-months="1"><input type="radio" name="months" value="1" checked>1 Monat</label>
+      <label class="duration-chip" data-months="3"><input type="radio" name="months" value="3">3 Monate <span class="save">−5%</span></label>
+      <label class="duration-chip" data-months="6"><input type="radio" name="months" value="6">6 Monate <span class="save">−10%</span></label>
+      <label class="duration-chip" data-months="9"><input type="radio" name="months" value="9">9 Monate <span class="save">−15%</span></label>
+      <label class="duration-chip" data-months="12"><input type="radio" name="months" value="12">12 Monate <span class="save">−20%</span></label>
+    </div>
+
+    <form id="registerForm">
+      <label for="regName">Name</label>
+      <input type="text" id="regName" required>
+      <label for="regEmail">E-Mail-Adresse</label>
+      <input type="email" id="regEmail" required>
+      <div id="regError" class="err" style="display:none"></div>
+      <button type="submit" class="btn-brass" id="regSubmit">Weiter zur Bezahlung (9,99&nbsp;€)</button>
+    </form>
+    <div id="regSuccess" class="ok-msg" style="display:none;margin-top:14px"></div>
+  </section>
+
+  <section class="report-card" id="faqCard">
+    <span class="section-code">§ 10 — FAQ</span>
+    <h2>Häufige Fragen</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Ist das ein Penetrationstest oder vollständiges Sicherheitsaudit?</summary>
+        <p>Nein. Es ist ein Kurzcheck von 7 konkreten, deterministisch geprüften Bereichen zu einem Zeitpunkt. Kein Penetrationstest, keine Garantie für Bedrohungsfreiheit — Details in den <a href="http://127.0.0.1:8846/it-tuev-agb">AGB</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Wie oft kann ich scannen?</summary>
+        <p>Je nach Paket 5 (Einzelplatz) oder 25 (Firmen-Paket) Scans, gültig für die gewählte Laufzeit (1–12 Monate). Kontingent und Ablaufdatum siehst du jederzeit in deinem <a href="http://127.0.0.1:8846/it-tuev-portal">Kundenportal</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Läuft das auf mehreren Geräten / für meine ganze Firma?</summary>
+        <p>Ja. Deine Kunden-ID ist nicht an einen PC gebunden — führe den Scan auf jedem Gerät aus, das du prüfen willst. Alle Ergebnisse laufen unter demselben Konto zusammen, im Portal nach Gerät sortiert.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Was passiert mit meinen Daten?</summary>
+        <p>Der Scan läuft rein lesend auf deinem Rechner. Nur die Prüfergebnisse werden übermittelt — kein Fernzugriff. Details in der <a href="http://127.0.0.1:8846/it-tuev-datenschutz">Datenschutzerklärung</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Muss ich kündigen, wenn ich nicht mehr weiter nutzen will?</summary>
+        <p>Nein. Es ist kein Abo — eine Einmalzahlung im Voraus, die nach der gewählten Laufzeit automatisch endet. Keine Kündigung, keine automatische Abbuchung.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Wie lange dauert ein Scan?</summary>
+        <p>Rund eine Minute. Danach wird der Bericht automatisch erzeugt und erscheint in deinem Portal, zusätzlich per E-Mail.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Ich brauche PowerShell-Hilfe oder habe ein technisches Problem.</summary>
+        <p>Kein Problem — nutze das Support-Formular unten, wir melden uns persönlich bei dir.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="report-card seal-panel" id="supportCard">
+    <span class="section-code">§ 11 — SUPPORT</span>
+    <h2>Fragen? Wir helfen persönlich.</h2>
+    <p class="sub">Kein Chatbot, keine Warteschleife — deine Nachricht geht direkt an STEINWALL.</p>
+    <form id="supportForm">
+      <label for="supName">Name</label>
+      <input type="text" id="supName" required>
+      <label for="supEmail">E-Mail-Adresse</label>
+      <input type="email" id="supEmail" required>
+      <label for="supCid">Kunden-ID (falls vorhanden)</label>
+      <input type="text" id="supCid">
+      <label for="supMessage">Deine Frage</label>
+      <textarea id="supMessage" required style="width:100%;background:transparent;border:1px solid var(--steel);color:var(--text-primary);padding:10px;font-size:14px;font-family:var(--font-body);margin-bottom:22px;min-height:90px;resize:vertical"></textarea>
+      <div id="supError" class="err" style="display:none"></div>
+      <button type="submit" class="btn-outline" id="supSubmit" style="border:1px solid var(--brass);color:var(--brass-bright);background:none;padding:12px 22px;font-size:14.5px;cursor:pointer;font-family:var(--font-body)">Nachricht senden</button>
+    </form>
+    <div id="supSuccess" class="ok-msg" style="display:none;margin-top:14px"></div>
+  </section>
+
+</main>
 <footer>
-  STEINWALL, Einzelunternehmen (Inhaber: Sebastian Keil) · Lindenallee 2, 14050 Berlin
-  <div class="flinks">
-    <a href="./index.html">Zur Startseite</a>
-    <a href="./impressum.html">Impressum</a>
-    <a href="./datenschutz.html">Datenschutz (Guardian)</a>
-    <a href="./agb.html">AGB (Guardian)</a>
-  </div>
+  STEINWALL · IT-TÜV ist ein Produkt von STEINWALL, Einzelunternehmen (Sebastian Keil) · <a href="http://127.0.0.1:8846/it-tuev-portal">Kundenportal</a><br>
+  <a href="http://127.0.0.1:8846/it-tuev-impressum">Impressum</a> · <a href="http://127.0.0.1:8846/it-tuev-datenschutz">Datenschutz</a> · <a href="http://127.0.0.1:8846/it-tuev-agb">AGB</a> — Details zu Umfang, Grenzen und Freischaltung dort.
 </footer>
 
+<script>
+const REDUCE_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Gauge-Nadel-Sweep beim Laden
+const needle = document.getElementById("gaugeNeedle");
+if (!REDUCE_MOTION) {
+  requestAnimationFrame(() => needle.classList.add("sweep"));
+} else {
+  needle.style.transform = "rotate(32deg)";
+}
+
+// 7 Karten <-> 7 Gauge-Ticks, gemeinsam per IntersectionObserver gesteuert
+const checkCards = Array.from(document.querySelectorAll("#checksCard .check-card"));
+const reportCards = Array.from(document.querySelectorAll(".report-card"));
+reportCards.forEach((card, i) => { card.style.transitionDelay = REDUCE_MOTION ? "0ms" : (i * 60) + "ms"; });
+
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("in-view");
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+reportCards.forEach(c => cardObserver.observe(c));
+
+const tickObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const i = checkCards.indexOf(entry.target);
+      const tick = document.querySelector('.gauge-tick[data-i="' + i + '"]');
+      const label = document.querySelector('.gauge-tick-label[data-i="' + i + '"]');
+      if (tick) tick.classList.add("active");
+      if (label) label.classList.add("active");
+    }
+  });
+}, { threshold: 0.6 });
+checkCards.forEach(c => tickObserver.observe(c));
+
+// Ambient Blueprint-Parallax (sehr subtil, nur ohne reduced-motion)
+if (!REDUCE_MOTION) {
+  const bp = document.getElementById("blueprintBg");
+  window.addEventListener("scroll", () => {
+    bp.style.transform = "translateY(" + (window.scrollY * 0.03) + "px)";
+  }, { passive: true });
+}
+
+const PLAN_BASE_PRICES = { einzel: 9.99, firma: 79.99 };
+// Nutzerfund (2026-08-05, "aufpassen wenn man dazu bucht monate hat man insgesamt auch mehr
+// scanns das steht dort falsch"): die Plan-Karten zeigten bisher fest "5 Scans / Monat" bzw.
+// "25 Scans / Monat", unabhaengig von der gewaehlten Laufzeit - das Backend
+// (stripe_checkout_api.py::handle_stripe_webhook) multipliziert scan_quota aber tatsaechlich mit
+// den gebuchten Monaten (SCAN_QUOTA * months). Ein Kunde, der z.B. 12 Monate bucht, bekam also
+// echt 60 statt der angezeigten 5 Scans - die Anzeige war irrefuehrend (zu WENIG versprochen).
+// Jetzt zeigt die Karte das echte Gesamtkontingent fuer die aktuell gewaehlte Laufzeit.
+const PLAN_MONTHLY_SCANS = { einzel: 5, firma: 25 };
+const PLAN_DEVICE_LABEL = { einzel: "1 Gerät", firma: "bis zu 10 Geräte" };
+const DURATION_DISCOUNTS = { 1: 1.00, 3: 0.95, 6: 0.90, 9: 0.85, 12: 0.80 };
+function selectedPlan() {
+  return document.querySelector('input[name="plan"]:checked').value;
+}
+function selectedMonths() {
+  return parseInt(document.querySelector('input[name="months"]:checked').value, 10);
+}
+function updatePlanButton() {
+  const plan = selectedPlan();
+  const months = selectedMonths();
+  const total = (PLAN_BASE_PRICES[plan] * months * DURATION_DISCOUNTS[months]).toFixed(2).replace(".", ",");
+  document.getElementById("regSubmit").textContent = `Weiter zur Bezahlung (${total} €)`;
+  ["einzel", "firma"].forEach(p => {
+    const totalScans = PLAN_MONTHLY_SCANS[p] * months;
+    const el = document.getElementById(p === "einzel" ? "planDetailEinzel" : "planDetailFirma");
+    el.textContent = months === 1
+      ? `${PLAN_DEVICE_LABEL[p]} · ${totalScans} Scans · 30 Tage`
+      : `${PLAN_DEVICE_LABEL[p]} · ${totalScans} Scans insgesamt · ${months * 30} Tage`;
+  });
+}
+document.querySelectorAll('input[name="plan"], input[name="months"]').forEach(r => r.addEventListener("change", updatePlanButton));
+updatePlanButton();
+
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("regName").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const errBox = document.getElementById("regError");
+  const okBox = document.getElementById("regSuccess");
+  const btn = document.getElementById("regSubmit");
+  errBox.style.display = "none";
+  okBox.style.display = "none";
+  btn.disabled = true;
+  btn.textContent = "Einen Moment...";
+  try {
+    const r = await fetch("http://127.0.0.1:8846/it-tuev/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, contact_email: email }),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || "Registrierung fehlgeschlagen.");
+    document.getElementById("registerForm").style.display = "none";
+    okBox.innerHTML = "✓ Konto angelegt.<br><br><b>Deine Kunden-ID (für den Scan-Schritt notieren):</b> <code>" + d.data.customer_id + "</code>" +
+      "<br><br>Weiter zur Bezahlung...";
+    okBox.style.display = "block";
+    const checkoutResp = await fetch("http://127.0.0.1:8846/it-tuev/create-checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ customer_id: d.data.customer_id, plan: selectedPlan(), months: selectedMonths() }),
+    });
+    const checkoutData = await checkoutResp.json();
+    if (checkoutData.ok && checkoutData.data.checkout_url) {
+      window.location.href = checkoutData.data.checkout_url;
+    } else {
+      okBox.innerHTML += "<br><br>Bezahlung konnte nicht gestartet werden - bitte kurz melden.";
+    }
+  } catch (err) {
+    errBox.textContent = err.message;
+    errBox.style.display = "block";
+  } finally {
+    btn.disabled = false;
+    updatePlanButton();
+  }
+});
+
+document.getElementById("supportForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("supName").value.trim();
+  const email = document.getElementById("supEmail").value.trim();
+  const customer_id = document.getElementById("supCid").value.trim();
+  const message = document.getElementById("supMessage").value.trim();
+  const errBox = document.getElementById("supError");
+  const okBox = document.getElementById("supSuccess");
+  const btn = document.getElementById("supSubmit");
+  errBox.style.display = "none";
+  okBox.style.display = "none";
+  btn.disabled = true;
+  btn.textContent = "Wird gesendet...";
+  try {
+    const r = await fetch("http://127.0.0.1:8846/it-tuev/support", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, customer_id, message }),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || "Senden fehlgeschlagen.");
+    document.getElementById("supportForm").style.display = "none";
+    okBox.textContent = "✓ Danke, deine Nachricht ist angekommen — wir melden uns bei dir.";
+    okBox.style.display = "block";
+  } catch (err) {
+    errBox.textContent = err.message;
+    errBox.style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Nachricht senden";
+  }
+});
+</script>
 </body>
 </html>
